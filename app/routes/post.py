@@ -8,7 +8,7 @@ from ..database import get_db
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 
-@router.get("/", response_model=List[schemas.PostWithVotes])
+@router.get("", response_model=List[schemas.PostWithVotes])
 def get_posts(db: Session = Depends(get_db), limit: int = 10,
               skip: int = 0, search: Optional[str] = ""):
 
@@ -19,7 +19,7 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10,
     return posts
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_post(post: schemas.PostCreate, db: Session = Depends(get_db),
                 current_user=Depends(oauth2.get_current_user)):
     post = models.Post(owner_id=current_user.id, **post.dict())
